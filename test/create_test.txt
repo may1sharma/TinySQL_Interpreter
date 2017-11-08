@@ -1,0 +1,19 @@
+##JavaccParserExample##### 
+CREATE TABLE STUDENT 
+( 
+    StudentName varchar (20), 
+    Class varchar(10), 
+    Rnum integer, 
+) 
+
+CREATE TABLE BOOKS
+( 
+    BookName varchar(10), 
+    Edition integer, 
+    Stock integer, 
+) 
+CREATE TABLE CODES
+( 
+    StudentKey varchar(20), 
+    StudentCode varchar(20), 
+)

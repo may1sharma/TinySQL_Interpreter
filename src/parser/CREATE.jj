@@ -1,0 +1,76 @@
+/* demo grammar.jj*/
+options
+{
+    STATIC = false ;
+}
+PARSER_BEGIN (Create)
+   package parser;
+   import java.util.ArrayList;
+   import java.util.HashMap;
+   class Create {
+         ArrayList<TableStruct> initParser()throws ParseException, TokenMgrError
+   { return(init()) ; }
+   }
+PARSER_END (Create)
+
+SKIP: { "\n" | "\r" | "\r\n" |"\\"|"\t"|" "}
+
+TOKEN [IGNORE_CASE]:
+{
+ <CTCMD :("Create Table")>
+|<NUMBER :(["0"-"9"])+ >
+|<TNAME:(["a"-"z"])+ >
+|<OBRA:("(")+>
+|<CBRA:(")")+>
+|<COMMA:(",")>
+}
+
+SPECIAL_TOKEN : {<COMMENT:("#")+(<TNAME>)+("#")+>}
+
+ArrayList<TableStruct> init():
+{
+    Token T;
+    ArrayList<TableStruct> tableList = new ArrayList<TableStruct>();
+    TableStruct tableStruct;
+}
+{
+  (
+       <CTCMD>
+       T =<TNAME>
+       {    tableStruct = new TableStruct ();
+            tableStruct.TableName = T.image ;
+            }
+        <OBRA>
+      tableStruct.Variables = Variables()
+      <CBRA>
+     {tableList.add (tableStruct) ;}
+  )*
+  <EOF>
+  {return tableList;}
+}
+
+HashMap Variables():
+{
+   Token TName;
+   Token TType;
+   HashMap<String,String> var = new HashMap<String, String>();
+}
+{
+    (
+    TName = <TNAME>
+    TType = DType()
+    <COMMA>
+    {var.put(TName.image,TType.image);}
+    )*
+    {return var;}
+}
+
+Token DType():
+{
+   Token TDType;
+}
+{
+    TDType=<TNAME>
+    [<OBRA><NUMBER><CBRA>]
+   {return TDType;}
+}

@@ -1,19 +1,19 @@
-##JavaccParserExample##### 
 CREATE TABLE STUDENT 
 ( 
-    StudentName varchar (20), 
-    Class varchar(10), 
-    Rnum integer, 
+    StudentName STR20, 
+    Class INT, 
+    Rnum INT
 ) 
+CREATE TABLE course (sid12 INT, homework INT, project INT, exam INT, grade STR20)
+CREATE TABLE course2 (sid INT, exam INT, grade STR20)
 
-CREATE TABLE BOOKS
-( 
-    BookName varchar(10), 
-    Edition integer, 
-    Stock integer, 
-) 
-CREATE TABLE CODES
-( 
-    StudentKey varchar(20), 
-    StudentCode varchar(20), 
-)
+CREATE TABLE r (a INT, b INT)
+CREATE TABLE s (b INT, c INT)
+CREATE TABLE t (a INT, c INT)
+
+CREATE TABLE t1 (c INT)
+CREATE TABLE t2 (c INT)
+CREATE TABLE t3 (c INT)
+CREATE TABLE t4 (c INT)
+CREATE TABLE t5 (c INT)
+CREATE TABLE t6 (c INT)

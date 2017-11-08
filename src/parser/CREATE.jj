@@ -8,8 +8,9 @@ PARSER_BEGIN (Create)
    import java.util.ArrayList;
    import java.util.HashMap;
    class Create {
-         ArrayList<TableStruct> initParser()throws ParseException, TokenMgrError
-   { return(init()) ; }
+         ArrayList<TableStruct> initParser()throws ParseException, TokenMgrError {
+         return(init()) ;
+         }
    }
 PARSER_END (Create)
 

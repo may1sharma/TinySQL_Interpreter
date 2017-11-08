@@ -86,14 +86,14 @@ public class Tuple implements Serializable {
 	    fields.clear();
 	  }
 	
-	// returns false if the type is wrong or out of bound
+	// returns false if the STATEMENT_TYPE is wrong or out of bound
 	  public boolean setField(int offset,String s){
 	    Schema schema=schema_manager.schemas[schema_index];
 	    if (offset>=schema.getNumOfFields() || offset<0){
 	      System.err.print("setField ERROR: offset "+offset+" is out of bound!"+"\n");
 	      return false;
 	    } else if (schema.getFieldType(offset)!=FieldType.STR20) {
-	      System.err.print("setField ERROR: field type not FieldType.STR20!"+"\n");
+	      System.err.print("setField ERROR: field STATEMENT_TYPE not FieldType.STR20!"+"\n");
 	      return false;
 	    } else {
 	      fields.get(offset).str=s;
@@ -101,14 +101,14 @@ public class Tuple implements Serializable {
 	    return true;
 	  }
 	
-	// returns false if the type is wrong or out of bound
+	// returns false if the STATEMENT_TYPE is wrong or out of bound
 	  public boolean setField(int offset,int i){
 	    Schema schema=schema_manager.schemas[schema_index];
 	    if (offset>=schema.getNumOfFields() || offset<0){
 	      System.err.print("setField ERROR: offset "+offset+" is out of bound!"+"\n");
 	      return false;
 	    } else if (schema.getFieldType(offset)!=FieldType.INT) {
-	      System.err.print("setField ERROR: field type not FieldType.INT!"+"\n");
+	      System.err.print("setField ERROR: field STATEMENT_TYPE not FieldType.INT!"+"\n");
 	      return false;
 	    } else {
 	      fields.get(offset).integer=i;
@@ -116,7 +116,7 @@ public class Tuple implements Serializable {
 	    return true;
 	  }
 	
-	// returns false if the type is wrong or the name is not found
+	// returns false if the STATEMENT_TYPE is wrong or the name is not found
 	  public boolean setField(String field_name,String s){
 	    Schema schema=schema_manager.schemas[schema_index];
 	    if (!schema.fieldNameExists(field_name)) {
@@ -125,7 +125,7 @@ public class Tuple implements Serializable {
 	    }
 	    int offset=schema.getFieldOffset(field_name);
 	    if (schema.getFieldType(offset)!=FieldType.STR20) {
-	      System.err.print("setField ERROR: field type not FieldType.STR20!"+"\n");
+	      System.err.print("setField ERROR: field STATEMENT_TYPE not FieldType.STR20!"+"\n");
 	      return false;
 	    } else {
 	      fields.get(offset).str=s;
@@ -133,7 +133,7 @@ public class Tuple implements Serializable {
 	    return true;
 	  }
 	
-	// returns false if the type is wrong or the name is not found
+	// returns false if the STATEMENT_TYPE is wrong or the name is not found
 	  public boolean setField(String field_name,int i){
 	    Schema schema=schema_manager.schemas[schema_index];
 	    if (!schema.fieldNameExists(field_name)) {
@@ -142,7 +142,7 @@ public class Tuple implements Serializable {
 	    }
 	    int offset=schema.getFieldOffset(field_name);
 	    if (schema.getFieldType(offset)!=FieldType.INT) {
-	      System.err.print("setField ERROR: field type not FieldType.INT!"+"\n");
+	      System.err.print("setField ERROR: field STATEMENT_TYPE not FieldType.INT!"+"\n");
 	      return false;
 	    } else {
 	      fields.get(offset).integer=i;

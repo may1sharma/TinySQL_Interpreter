@@ -1,0 +1,149 @@
+options
+{
+    STATIC = false ;
+}
+PARSER_BEGIN (TinyParser)
+   package parser;
+   import java.util.ArrayList;
+   import java.util.HashMap;
+   class TinyParser {
+         ArrayList<Statement> initParser()throws ParseException, TokenMgrError {
+            return(init()) ;
+         }
+   }
+PARSER_END (TinyParser)
+
+SKIP: { "\n" | "\r" | "\r\n" |"\\"|"\t"|" "}
+
+TOKEN [IGNORE_CASE]:
+{
+ <CREATE :("Create Table")>
+|<DROP : ("Drop Table")>
+|<SELECT : ("Select")>
+|<INSERT : ("Insert Into")>
+|<DELETE : ("Delete From")>
+|<DISTINCT : ("Distinct")>
+|<VALUES : ("Values")>
+|<FROM : ("From")>
+|<WHERE : ("Where")>
+|<ORDERBY : ("Order By")>
+|<NULL : ("Null")>
+|<DATATYPE : ("INT")|("STR20")>
+|<DIGIT :(["0"-"9"])+ >
+|<LETTER:(["a"-"z"])+ >
+//|<NUMERAL:(["a"-"z","0"-"9"])+ >
+|<LPAREN:("(")>
+|<RPAREN:(")")>
+| < LBRACE: "{" >
+| < RBRACE: "}" >
+| < LBRACKET: "[" >
+| < RBRACKET: "]" >
+|<COMMA:(",")>
+|<DOT: "." >
+//|<SPACE: " " >
+| < PLUS: "+" >
+| < MINUS: "-" >
+| < STAR: "*" >
+| < SLASH: "/" >
+|<LT:("<")>
+|<GT:(">")>
+|<EQ:("=")>
+|<COMP_OP:(<LT>)|(<GT>)|(<EQ>)>
+|<QUOTE:"\"">
+}
+
+//SPECIAL_TOKEN : {<COMMENT:("#")+(<TABLE_NAME>)+("#")+>}
+
+Token TableName():
+{
+    Token T;
+}
+{
+    T = <LETTER>(<DIGIT>|<LETTER>)*
+    {return T;}
+}
+
+Token AttributeName():
+{
+    Token T;
+}
+{
+
+    T = <LETTER>(<DIGIT>|<LETTER>)*
+    {return T;}
+}
+
+Token ColumnName():
+{Token T;}
+{
+    T = TableName()[<DOT>AttributeName()]
+    {return T;}
+}
+
+Token Literal():
+{Token T;}
+{
+    T = <QUOTE>(<DIGIT>|<LETTER>|<LPAREN>|<RPAREN>|<COMMA>|<DOT>)*<QUOTE>
+    {return T;}
+}
+
+
+
+ArrayList<Statement> init():
+{
+    ArrayList<Statement> stmtList = new ArrayList<Statement>();
+    Statement stmt;
+}
+{
+    (
+         stmt =   CreateStatement()
+//                | DropStatement()
+//                | SelectStatement()
+//                | InsertStatement()
+//                | DeleteStatement()
+         {stmtList.add(stmt) ;}
+    )*
+    <EOF>
+    {return stmtList;}
+}
+
+Statement CreateStatement():
+{
+    Token T;
+    Statement stmt;
+    HashMap<String,String> attributes;
+}
+{
+    <CREATE>
+    T = TableName()
+    <LPAREN>
+    attributes = AttrList()
+    <RPAREN>
+    {
+        stmt = new CreateStatement(T.image, attributes);
+        return stmt;
+    }
+}
+
+HashMap AttrList():
+{
+   Token AName;
+   Token AType;
+   HashMap<String,String> var = new HashMap<String, String>();
+}
+{
+
+
+    AName = AttributeName()
+    AType = <DATATYPE>
+    {   var.put(AName.image,AType.image);    }
+    (
+        [<COMMA>]
+        AName = AttributeName()
+        AType = <DATATYPE>
+        {   var.put(AName.image,AType.image);    }
+    )*
+    {
+        return var;
+    }
+}

@@ -31,7 +31,7 @@ TOKEN [IGNORE_CASE]:
 |<DATATYPE : ("INT")|("STR20")>
 |<DIGIT :(["0"-"9"]) >
 |<LETTER:(["a"-"z"]) >
-|<NUMERAL:(["a"-"z","0"-"9"])+ >
+|<NUMERAL:(<LETTER>)(["a"-"z","0"-"9"])+ >
 |<LPAREN:("(")>
 |<RPAREN:(")")>
 | < LBRACE: "{" >

@@ -29,9 +29,9 @@ TOKEN [IGNORE_CASE]:
 |<ORDERBY : ("Order By")>
 |<NULL : ("Null")>
 |<DATATYPE : ("INT")|("STR20")>
-|<DIGIT :(["0"-"9"])+ >
-|<LETTER:(["a"-"z"])+ >
-//|<NUMERAL:(["a"-"z","0"-"9"])+ >
+|<DIGIT :(["0"-"9"]) >
+|<LETTER:(["a"-"z"]) >
+|<NUMERAL:(["a"-"z","0"-"9"])+ >
 |<LPAREN:("(")>
 |<RPAREN:(")")>
 | < LBRACE: "{" >
@@ -59,7 +59,9 @@ Token TableName():
     Token T;
 }
 {
-    T = <LETTER>(<DIGIT>|<LETTER>)*
+    T = <LETTER>
+    {return T;} |
+    T = <NUMERAL>
     {return T;}
 }
 
@@ -68,8 +70,9 @@ Token AttributeName():
     Token T;
 }
 {
-
-    T = <LETTER>(<DIGIT>|<LETTER>)*
+    T = <LETTER>
+    {return T;} |
+    T = <NUMERAL>
     {return T;}
 }
 

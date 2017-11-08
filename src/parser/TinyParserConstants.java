@@ -39,39 +39,41 @@ public interface TinyParserConstants {
   /** RegularExpression Id. */
   int LETTER = 20;
   /** RegularExpression Id. */
-  int LPAREN = 21;
+  int NUMERAL = 21;
   /** RegularExpression Id. */
-  int RPAREN = 22;
+  int LPAREN = 22;
   /** RegularExpression Id. */
-  int LBRACE = 23;
+  int RPAREN = 23;
   /** RegularExpression Id. */
-  int RBRACE = 24;
+  int LBRACE = 24;
   /** RegularExpression Id. */
-  int LBRACKET = 25;
+  int RBRACE = 25;
   /** RegularExpression Id. */
-  int RBRACKET = 26;
+  int LBRACKET = 26;
   /** RegularExpression Id. */
-  int COMMA = 27;
+  int RBRACKET = 27;
   /** RegularExpression Id. */
-  int DOT = 28;
+  int COMMA = 28;
   /** RegularExpression Id. */
-  int PLUS = 29;
+  int DOT = 29;
   /** RegularExpression Id. */
-  int MINUS = 30;
+  int PLUS = 30;
   /** RegularExpression Id. */
-  int STAR = 31;
+  int MINUS = 31;
   /** RegularExpression Id. */
-  int SLASH = 32;
+  int STAR = 32;
   /** RegularExpression Id. */
-  int LT = 33;
+  int SLASH = 33;
   /** RegularExpression Id. */
-  int GT = 34;
+  int LT = 34;
   /** RegularExpression Id. */
-  int EQ = 35;
+  int GT = 35;
   /** RegularExpression Id. */
-  int COMP_OP = 36;
+  int EQ = 36;
   /** RegularExpression Id. */
-  int QUOTE = 37;
+  int COMP_OP = 37;
+  /** RegularExpression Id. */
+  int QUOTE = 38;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -99,6 +101,7 @@ public interface TinyParserConstants {
     "<DATATYPE>",
     "<DIGIT>",
     "<LETTER>",
+    "<NUMERAL>",
     "\"(\"",
     "\")\"",
     "\"{\"",

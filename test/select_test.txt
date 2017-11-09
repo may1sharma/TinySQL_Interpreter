@@ -3,3 +3,5 @@ SELECT sid, grade FROM course
 SELECT sid, course.grade FROM course
 SELECT DISTINCT grade FROM course
 SELECT DISTINCT * FROM course
+SELECT * FROM course ORDER BY exam
+SELECT DISTINCT * FROM course ORDER BY course.exam

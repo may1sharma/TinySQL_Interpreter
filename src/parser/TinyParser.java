@@ -158,14 +158,14 @@
     jj_consume_token(CREATE);
     T = TableName();
     jj_consume_token(LPAREN);
-    attributes = AttrList();
+    attributes = AttrTypeList();
     jj_consume_token(RPAREN);
         stmt = new CreateStatement(T.image, attributes);
         {if (true) return stmt;}
     throw new Error("Missing return statement in function");
   }
 
-  final public HashMap AttrList() throws ParseException {
+  final public HashMap AttrTypeList() throws ParseException {
    Token AName;
    Token AType;
    HashMap<String,String> var = new HashMap<String, String>();
@@ -213,6 +213,7 @@
     Statement stmt;
     ArrayList<String> selList;
     ArrayList<String> tabList;
+    Token O = null;
     jj_consume_token(SELECT);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case DISTINCT:
@@ -225,7 +226,16 @@
     selList = selectList();
     jj_consume_token(FROM);
     tabList = tableList();
-        stmt = new SelectStatement(D, selList, tabList);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case ORDERBY:
+      jj_consume_token(ORDERBY);
+      O = ColumnName();
+      break;
+    default:
+      jj_la1[10] = jj_gen;
+      ;
+    }
+        stmt = new SelectStatement(D, selList, tabList, (O==null? "": O.image));
         {if (true) return stmt;}
     throw new Error("Missing return statement in function");
   }
@@ -243,7 +253,7 @@
          {if (true) return subList;}
       break;
     default:
-      jj_la1[10] = jj_gen;
+      jj_la1[11] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -262,7 +272,7 @@
         ;
         break;
       default:
-        jj_la1[11] = jj_gen;
+        jj_la1[12] = jj_gen;
         break label_4;
       }
       jj_consume_token(COMMA);
@@ -285,7 +295,7 @@
         ;
         break;
       default:
-        jj_la1[12] = jj_gen;
+        jj_la1[13] = jj_gen;
         break label_5;
       }
       jj_consume_token(COMMA);
@@ -305,7 +315,7 @@
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[13];
+  final private int[] jj_la1 = new int[14];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -313,10 +323,10 @@
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x300000,0x300000,0x20000000,0x30d80000,0x30d80000,0x380,0x380,0x10300000,0x10000000,0x1000,0x300000,0x10000000,0x10000000,};
+      jj_la1_0 = new int[] {0x300000,0x300000,0x20000000,0x30d80000,0x30d80000,0x380,0x380,0x10300000,0x10000000,0x1000,0x10000,0x300000,0x10000000,0x10000000,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1,0x0,0x0,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1,0x0,0x0,};
    }
 
   /** Constructor with InputStream. */
@@ -330,7 +340,7 @@
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -344,7 +354,7 @@
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -354,7 +364,7 @@
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -364,7 +374,7 @@
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -373,7 +383,7 @@
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -382,7 +392,7 @@
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -438,7 +448,7 @@
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 13; i++) {
+    for (int i = 0; i < 14; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {

@@ -130,7 +130,7 @@ Statement CreateStatement():
     <CREATE>
     T = TableName()
     <LPAREN>
-    attributes = AttrList()
+    attributes = AttrTypeList()
     <RPAREN>
     {
         stmt = new CreateStatement(T.image, attributes);
@@ -138,7 +138,7 @@ Statement CreateStatement():
     }
 }
 
-HashMap AttrList():
+HashMap AttrTypeList():
 {
    Token AName;
    Token AType;
@@ -177,6 +177,7 @@ Statement SelectStatement():
     Statement stmt;
     ArrayList<String> selList;
     ArrayList<String> tabList;
+    Token O = null;
 }
 {
     <SELECT>
@@ -184,8 +185,9 @@ Statement SelectStatement():
     selList = selectList()
     <FROM>
     tabList = tableList()
+    [<ORDERBY> O = ColumnName()]
     {
-        stmt = new SelectStatement(D, selList, tabList);
+        stmt = new SelectStatement(D, selList, tabList, (O==null? "": O.image));
         return stmt;
     }
 }

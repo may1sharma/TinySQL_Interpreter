@@ -12,16 +12,26 @@ public class SelectStatement implements Statement {
     boolean hasDistinct = false;
     List<String> columns;
     List<String> tables;
+    String orderColumn;
 
     public SelectStatement(List<String> columns, List<String> tables) {
         this.columns = columns;
         this.tables = tables;
     }
 
-    public SelectStatement(Object distinct, List<String> columns, List<String> tables) {
+    public SelectStatement(Object distinct, List<String> columns, List<String> tables, String orderColumn) {
         this.hasDistinct = distinct!=null;
         this.columns = columns;
         this.tables = tables;
+        if (!orderColumn.isEmpty()) {this.orderColumn = orderColumn;}
+    }
+
+    public String getOrderColumn() {
+        return orderColumn;
+    }
+
+    public void setOrderColumn(String orderColumn) {
+        this.orderColumn = orderColumn;
     }
 
     public boolean isHasDistinct() {

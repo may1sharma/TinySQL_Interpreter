@@ -1,0 +1,13 @@
+INSERT INTO course (sid, homework, project, exam, grade) VALUES (1, 99, 100, 100, "A")
+INSERT INTO course (sid, homework, project, exam, grade) VALUES (3, 100, 100, 98, "C")
+INSERT INTO course (sid, homework, project, exam, grade) VALUES (16, 0, 0, 0, "E")
+
+INSERT INTO course2 (sid, exam, grade) VALUES (6, 65, "B")
+INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
+
+INSERT INTO r (a, b) VALUES (3, 3)
+INSERT INTO r (a, b) VALUES (0, 0)
+
+INSERT INTO t2 (c) VALUES (0)
+INSERT INTO t2 (c) VALUES (1)
+INSERT INTO t2 (c) VALUES (2)

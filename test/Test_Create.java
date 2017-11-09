@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Test_Create {
     public static void main(String[] args) {
-        System.out.println("Let's Begin");
+        System.out.println("Let's Begin Create Test");
 
         try{
             TinyParser parser = new TinyParser (new FileReader("test/create_test.txt"));

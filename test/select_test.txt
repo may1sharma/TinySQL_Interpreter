@@ -1,0 +1,5 @@
+SELECT * FROM course
+SELECT sid, grade FROM course
+SELECT sid, course.grade FROM course
+SELECT DISTINCT grade FROM course
+SELECT DISTINCT * FROM course

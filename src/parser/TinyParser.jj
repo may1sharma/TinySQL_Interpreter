@@ -52,7 +52,7 @@ TOKEN [IGNORE_CASE]:
 |<QUOTE:"\"">
 }
 
-//SPECIAL_TOKEN : {<COMMENT:("#")+(<TABLE_NAME>)+("#")+>}
+//SPECIAL_TOKEN : {<COMMENT:("#")+(<DIGIT>|<LETTER>|" ")*("#")+>}
 
 Token TableName():
 {
@@ -77,10 +77,16 @@ Token AttributeName():
 }
 
 Token ColumnName():
-{Token T;}
 {
-    T = TableName()[<DOT>AttributeName()]
-    {return T;}
+    Token T;
+    Token S = null;
+}
+{
+    T = TableName()[<DOT> S = AttributeName()]
+    {
+        if (S!= null) {T.image = T.image + "." + S.image;}
+        return T;
+    }
 }
 
 Token Literal():
@@ -99,12 +105,16 @@ ArrayList<Statement> init():
 }
 {
     (
-         stmt =   CreateStatement()
-//                | DropStatement()
-//                | SelectStatement()
-//                | InsertStatement()
-//                | DeleteStatement()
-         {stmtList.add(stmt) ;}
+          stmt = CreateStatement()
+          {stmtList.add(stmt) ;}
+        | stmt = DropStatement()
+          {stmtList.add(stmt) ;}
+        | stmt = SelectStatement()
+          {stmtList.add(stmt) ;}
+//        | stmt = InsertStatement()
+//          {stmtList.add(stmt) ;}
+//        | stmt = DeleteStatement()
+//          {stmtList.add(stmt) ;}
     )*
     <EOF>
     {return stmtList;}
@@ -135,8 +145,6 @@ HashMap AttrList():
    HashMap<String,String> var = new HashMap<String, String>();
 }
 {
-
-
     AName = AttributeName()
     AType = <DATATYPE>
     {   var.put(AName.image,AType.image);    }
@@ -149,4 +157,78 @@ HashMap AttrList():
     {
         return var;
     }
+}
+
+Statement DropStatement():
+{
+    Token T;
+}
+{
+    <DROP>
+    T = TableName()
+    {
+        return new DropStatement(T.image);
+    }
+}
+
+Statement SelectStatement():
+{
+    Token D = null;
+    Statement stmt;
+    ArrayList<String> selList;
+    ArrayList<String> tabList;
+}
+{
+    <SELECT>
+    [D = <DISTINCT>]
+    selList = selectList()
+    <FROM>
+    tabList = tableList()
+    {
+        stmt = new SelectStatement(D, selList, tabList);
+        return stmt;
+    }
+}
+
+ArrayList<String> selectList():
+{
+    ArrayList<String> subList;
+}
+{
+    <STAR>
+        {return  new ArrayList<String>(){{add("*");}};}
+    | subList = selectSubList()
+        {return subList;}
+}
+
+ArrayList<String> selectSubList():
+{
+    Token T;
+    ArrayList<String> subList = new ArrayList<String>();
+}
+{
+    T = ColumnName()
+    {subList.add(T.image);}
+    (
+        <COMMA>
+        T = ColumnName()
+        {subList.add(T.image);}
+    )*
+    {return subList;}
+}
+
+ArrayList<String> tableList():
+{
+    Token T;
+    ArrayList<String> tabList = new ArrayList<String>();
+}
+{
+    T = TableName()
+    {tabList.add(T.image);}
+    (
+        <COMMA>
+        T = TableName()
+        {tabList.add(T.image);}
+    )*
+    {return tabList;}
 }

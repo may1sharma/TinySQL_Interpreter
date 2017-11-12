@@ -12,6 +12,7 @@ public class SelectStatement implements Statement {
     boolean hasDistinct = false;
     List<String> columns;
     List<String> tables;
+    List<String> condition;
     String orderColumn;
 
     public SelectStatement(List<String> columns, List<String> tables) {
@@ -19,10 +20,12 @@ public class SelectStatement implements Statement {
         this.tables = tables;
     }
 
-    public SelectStatement(Object distinct, List<String> columns, List<String> tables, String orderColumn) {
+    public SelectStatement(Object distinct, List<String> columns, List<String> tables, List<String> condition,
+                           String orderColumn) {
         this.hasDistinct = distinct!=null;
         this.columns = columns;
         this.tables = tables;
+        this.condition = condition;
         if (!orderColumn.isEmpty()) {this.orderColumn = orderColumn;}
     }
 
@@ -56,5 +59,13 @@ public class SelectStatement implements Statement {
 
     public void setTables(List<String> tables) {
         this.tables = tables;
+    }
+
+    public List<String> getCondition() {
+        return condition;
+    }
+
+    public void setCondition(List<String> condition) {
+        this.condition = condition;
     }
 }

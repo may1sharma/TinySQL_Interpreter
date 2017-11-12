@@ -30,6 +30,7 @@ TOKEN [IGNORE_CASE]:
 |<NULL : ("Null")>
 |<DATATYPE : ("INT")|("STR20")>
 |<DIGIT :(["0"-"9"]) >
+|<INTEGER :(["0"-"9"])+ >
 |<LETTER:(["a"-"z"]) >
 |<NUMERAL:(<LETTER>)(["a"-"z","0"-"9"])+ >
 |<LPAREN:("(")>
@@ -48,7 +49,7 @@ TOKEN [IGNORE_CASE]:
 |<LT:("<")>
 |<GT:(">")>
 |<EQ:("=")>
-|<COMP_OP:(<LT>)|(<GT>)|(<EQ>)>
+|<COMP_OP:(<LT>|<GT>|<EQ>)>
 |<QUOTE:"\"">
 }
 
@@ -89,11 +90,22 @@ Token ColumnName():
     }
 }
 
-Token Literal():
-{Token T;}
+String Literal():
 {
-    T = <QUOTE>(<DIGIT>|<LETTER>|<LPAREN>|<RPAREN>|<COMMA>|<DOT>)*<QUOTE>
-    {return T;}
+    Token T;
+    StringBuilder sb = new StringBuilder();
+}
+{
+    <QUOTE>
+    (T = <DIGIT> {sb.append(T.image);}
+    |T = <LETTER> {sb.append(T.image);}
+    |T = <LPAREN> {sb.append(T.image);}
+    |T = <RPAREN> {sb.append(T.image);}
+    |T = <COMMA> {sb.append(T.image);}
+    |T = <DOT> {sb.append(T.image);}
+    )*
+    <QUOTE>
+    {return sb.toString();}
 }
 
 
@@ -177,6 +189,7 @@ Statement SelectStatement():
     Statement stmt;
     ArrayList<String> selList;
     ArrayList<String> tabList;
+    ArrayList<String> clause = null;
     Token O = null;
 }
 {
@@ -185,9 +198,10 @@ Statement SelectStatement():
     selList = selectList()
     <FROM>
     tabList = tableList()
+    [<WHERE> clause = Condition()]
     [<ORDERBY> O = ColumnName()]
     {
-        stmt = new SelectStatement(D, selList, tabList, (O==null? "": O.image));
+        stmt = new SelectStatement(D, selList, tabList, clause, (O==null? "": O.image));
         return stmt;
     }
 }
@@ -233,4 +247,92 @@ ArrayList<String> tableList():
         {tabList.add(T.image);}
     )*
     {return tabList;}
+}
+
+String term():
+{   Token T;
+    String S;
+}
+{
+    T = ColumnName()
+        {return T.image;}
+    | S = Literal()
+        {return S;}
+    | T = <INTEGER>
+        {return T.image;}
+    | T = <DIGIT>
+        {return T.image;}
+}
+
+ArrayList<String> exp() :
+{
+  Token T;
+  String S;
+  ArrayList<String> expList = new ArrayList<String>();
+}
+{
+    [T = <LPAREN>    { expList.add(T.image);} ]
+    S = term()           { expList.add(S);}
+    (    T = <PLUS>      { expList.add(T.image);}
+         S = term()      { expList.add(S);}
+         [T = <RPAREN>    { expList.add(T.image);} ]
+        |T = <MINUS>     { expList.add(T.image);}
+         S = term()      { expList.add(S);}
+         [T = <RPAREN>    { expList.add(T.image);} ]
+        |T = <STAR>      { expList.add(T.image);}
+         S = term()      { expList.add(S);}
+         [T = <RPAREN>    { expList.add(T.image);} ]
+        |T = <SLASH>     { expList.add(T.image);}
+         S = term()      { expList.add(S);}
+         [T = <RPAREN>    { expList.add(T.image);} ]
+    )*
+    { return expList; }
+}
+
+ArrayList<String> boolFactor() :
+{
+    Token T;
+    ArrayList<String> S;
+    ArrayList<String> cond = new ArrayList<String>();
+}
+{
+    [T = <LBRACKET>  { cond.add(T.image); }]
+    [T = "NOT "  { cond.add(T.image); }]
+    S = exp()   { cond.addAll(S); }
+    (   T = <LT>  { cond.add(T.image); }
+       |T = <GT>  { cond.add(T.image); }
+       |T = <EQ>  { cond.add(T.image); }
+    )
+    S = exp()   { cond.addAll(S); }
+    [T = <RBRACKET>  { cond.add(T.image); }]
+    { return cond;}
+}
+
+ArrayList<String> boolTerm() :
+{
+    Token T;
+    ArrayList<String> S;
+    ArrayList<String> cond = new ArrayList<String>();
+}
+{
+    S = boolFactor()   { cond.addAll(S); }
+    [
+        T = "AND "  { cond.add(T.image); }
+        S = boolTerm()   { cond.addAll(S); }
+    ]
+    { return cond;}
+}
+
+ArrayList<String> Condition() :
+{
+    Token T;
+    ArrayList<String> S;
+    ArrayList<String> cond = new ArrayList<String>();
+}
+{
+    S = boolTerm()   { cond.addAll(S); }
+    [   T = "OR "          { cond.add(T.image); }
+        S = Condition()   { cond.addAll(S); }
+    ]
+    { return cond;}
 }

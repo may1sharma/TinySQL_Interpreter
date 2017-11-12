@@ -64,9 +64,10 @@
     throw new Error("Missing return statement in function");
   }
 
-  final public Token Literal() throws ParseException {
- Token T;
-    T = jj_consume_token(QUOTE);
+  final public String Literal() throws ParseException {
+    Token T;
+    StringBuilder sb = new StringBuilder();
+    jj_consume_token(QUOTE);
     label_1:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -84,22 +85,28 @@
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case DIGIT:
-        jj_consume_token(DIGIT);
+        T = jj_consume_token(DIGIT);
+                  sb.append(T.image);
         break;
       case LETTER:
-        jj_consume_token(LETTER);
+        T = jj_consume_token(LETTER);
+                   sb.append(T.image);
         break;
       case LPAREN:
-        jj_consume_token(LPAREN);
+        T = jj_consume_token(LPAREN);
+                   sb.append(T.image);
         break;
       case RPAREN:
-        jj_consume_token(RPAREN);
+        T = jj_consume_token(RPAREN);
+                   sb.append(T.image);
         break;
       case COMMA:
-        jj_consume_token(COMMA);
+        T = jj_consume_token(COMMA);
+                  sb.append(T.image);
         break;
       case DOT:
-        jj_consume_token(DOT);
+        T = jj_consume_token(DOT);
+                sb.append(T.image);
         break;
       default:
         jj_la1[4] = jj_gen;
@@ -108,7 +115,7 @@
       }
     }
     jj_consume_token(QUOTE);
-     {if (true) return T;}
+     {if (true) return sb.toString();}
     throw new Error("Missing return statement in function");
   }
 
@@ -213,6 +220,7 @@
     Statement stmt;
     ArrayList<String> selList;
     ArrayList<String> tabList;
+    ArrayList<String> clause = null;
     Token O = null;
     jj_consume_token(SELECT);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -227,15 +235,24 @@
     jj_consume_token(FROM);
     tabList = tableList();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case ORDERBY:
-      jj_consume_token(ORDERBY);
-      O = ColumnName();
+    case WHERE:
+      jj_consume_token(WHERE);
+      clause = Condition();
       break;
     default:
       jj_la1[10] = jj_gen;
       ;
     }
-        stmt = new SelectStatement(D, selList, tabList, (O==null? "": O.image));
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case ORDERBY:
+      jj_consume_token(ORDERBY);
+      O = ColumnName();
+      break;
+    default:
+      jj_la1[11] = jj_gen;
+      ;
+    }
+        stmt = new SelectStatement(D, selList, tabList, clause, (O==null? "": O.image));
         {if (true) return stmt;}
     throw new Error("Missing return statement in function");
   }
@@ -253,7 +270,7 @@
          {if (true) return subList;}
       break;
     default:
-      jj_la1[11] = jj_gen;
+      jj_la1[12] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -272,7 +289,7 @@
         ;
         break;
       default:
-        jj_la1[12] = jj_gen;
+        jj_la1[13] = jj_gen;
         break label_4;
       }
       jj_consume_token(COMMA);
@@ -295,7 +312,7 @@
         ;
         break;
       default:
-        jj_la1[13] = jj_gen;
+        jj_la1[14] = jj_gen;
         break label_5;
       }
       jj_consume_token(COMMA);
@@ -303,6 +320,233 @@
          tabList.add(T.image);
     }
      {if (true) return tabList;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public String term() throws ParseException {
+    Token T;
+    String S;
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case LETTER:
+    case NUMERAL:
+      T = ColumnName();
+         {if (true) return T.image;}
+      break;
+    case QUOTE:
+      S = Literal();
+         {if (true) return S;}
+      break;
+    case INTEGER:
+      T = jj_consume_token(INTEGER);
+         {if (true) return T.image;}
+      break;
+    case DIGIT:
+      T = jj_consume_token(DIGIT);
+         {if (true) return T.image;}
+      break;
+    default:
+      jj_la1[15] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+    throw new Error("Missing return statement in function");
+  }
+
+  final public ArrayList<String> exp() throws ParseException {
+  Token T;
+  String S;
+  ArrayList<String> expList = new ArrayList<String>();
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case LPAREN:
+      T = jj_consume_token(LPAREN);
+                       expList.add(T.image);
+      break;
+    default:
+      jj_la1[16] = jj_gen;
+      ;
+    }
+    S = term();
+                           expList.add(S);
+    label_6:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case PLUS:
+      case MINUS:
+      case STAR:
+      case SLASH:
+        ;
+        break;
+      default:
+        jj_la1[17] = jj_gen;
+        break label_6;
+      }
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case PLUS:
+        T = jj_consume_token(PLUS);
+                           expList.add(T.image);
+        S = term();
+                           expList.add(S);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case RPAREN:
+          T = jj_consume_token(RPAREN);
+                            expList.add(T.image);
+          break;
+        default:
+          jj_la1[18] = jj_gen;
+          ;
+        }
+        break;
+      case MINUS:
+        T = jj_consume_token(MINUS);
+                           expList.add(T.image);
+        S = term();
+                           expList.add(S);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case RPAREN:
+          T = jj_consume_token(RPAREN);
+                            expList.add(T.image);
+          break;
+        default:
+          jj_la1[19] = jj_gen;
+          ;
+        }
+        break;
+      case STAR:
+        T = jj_consume_token(STAR);
+                           expList.add(T.image);
+        S = term();
+                           expList.add(S);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case RPAREN:
+          T = jj_consume_token(RPAREN);
+                            expList.add(T.image);
+          break;
+        default:
+          jj_la1[20] = jj_gen;
+          ;
+        }
+        break;
+      case SLASH:
+        T = jj_consume_token(SLASH);
+                           expList.add(T.image);
+        S = term();
+                           expList.add(S);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case RPAREN:
+          T = jj_consume_token(RPAREN);
+                            expList.add(T.image);
+          break;
+        default:
+          jj_la1[21] = jj_gen;
+          ;
+        }
+        break;
+      default:
+        jj_la1[22] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    }
+      {if (true) return expList;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public ArrayList<String> boolFactor() throws ParseException {
+    Token T;
+    ArrayList<String> S;
+    ArrayList<String> cond = new ArrayList<String>();
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case LBRACKET:
+      T = jj_consume_token(LBRACKET);
+                       cond.add(T.image);
+      break;
+    default:
+      jj_la1[23] = jj_gen;
+      ;
+    }
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case 40:
+      T = jj_consume_token(40);
+                   cond.add(T.image);
+      break;
+    default:
+      jj_la1[24] = jj_gen;
+      ;
+    }
+    S = exp();
+                  cond.addAll(S);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case LT:
+      T = jj_consume_token(LT);
+                    cond.add(T.image);
+      break;
+    case GT:
+      T = jj_consume_token(GT);
+                    cond.add(T.image);
+      break;
+    case EQ:
+      T = jj_consume_token(EQ);
+                    cond.add(T.image);
+      break;
+    default:
+      jj_la1[25] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+    S = exp();
+                  cond.addAll(S);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case RBRACKET:
+      T = jj_consume_token(RBRACKET);
+                       cond.add(T.image);
+      break;
+    default:
+      jj_la1[26] = jj_gen;
+      ;
+    }
+      {if (true) return cond;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public ArrayList<String> boolTerm() throws ParseException {
+    Token T;
+    ArrayList<String> S;
+    ArrayList<String> cond = new ArrayList<String>();
+    S = boolFactor();
+                         cond.addAll(S);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case 41:
+      T = jj_consume_token(41);
+                      cond.add(T.image);
+      S = boolTerm();
+                           cond.addAll(S);
+      break;
+    default:
+      jj_la1[27] = jj_gen;
+      ;
+    }
+      {if (true) return cond;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public ArrayList<String> Condition() throws ParseException {
+    Token T;
+    ArrayList<String> S;
+    ArrayList<String> cond = new ArrayList<String>();
+    S = boolTerm();
+                       cond.addAll(S);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case 42:
+      T = jj_consume_token(42);
+                             cond.add(T.image);
+      S = Condition();
+                            cond.addAll(S);
+      break;
+    default:
+      jj_la1[28] = jj_gen;
+      ;
+    }
+      {if (true) return cond;}
     throw new Error("Missing return statement in function");
   }
 
@@ -315,7 +559,7 @@
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[14];
+  final private int[] jj_la1 = new int[29];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -323,10 +567,10 @@
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x300000,0x300000,0x20000000,0x30d80000,0x30d80000,0x380,0x380,0x10300000,0x10000000,0x1000,0x10000,0x300000,0x10000000,0x10000000,};
+      jj_la1_0 = new int[] {0x600000,0x600000,0x40000000,0x61a80000,0x61a80000,0x380,0x380,0x20600000,0x20000000,0x1000,0x8000,0x10000,0x600000,0x20000000,0x20000000,0x780000,0x800000,0x80000000,0x1000000,0x1000000,0x1000000,0x1000000,0x80000000,0x8000000,0x0,0x0,0x10000000,0x0,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1,0x0,0x0,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x2,0x0,0x0,0x80,0x0,0x7,0x0,0x0,0x0,0x0,0x7,0x0,0x100,0x38,0x0,0x200,0x400,};
    }
 
   /** Constructor with InputStream. */
@@ -340,7 +584,7 @@
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 29; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -354,7 +598,7 @@
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 29; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -364,7 +608,7 @@
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 29; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -374,7 +618,7 @@
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 29; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -383,7 +627,7 @@
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 29; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -392,7 +636,7 @@
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 29; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -443,12 +687,12 @@
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[39];
+    boolean[] la1tokens = new boolean[43];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 14; i++) {
+    for (int i = 0; i < 29; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -460,7 +704,7 @@
         }
       }
     }
-    for (int i = 0; i < 39; i++) {
+    for (int i = 0; i < 43; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

@@ -39,4 +39,12 @@ public class CreateStatement implements Statement {
     public void setAttributes(HashMap<String, String> attributes) {
         this.attributes = attributes;
     }
+
+    @Override
+    public String toString() {
+        return "CreateStatement{" +
+                "tableName='" + tableName + '\'' +
+                ", attributes=" + attributes +
+                '}';
+    }
 }

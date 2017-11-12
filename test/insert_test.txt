@@ -11,3 +11,5 @@ INSERT INTO r (a, b) VALUES (0, 0)
 INSERT INTO t2 (c) VALUES (0)
 INSERT INTO t2 (c) VALUES (1)
 INSERT INTO t2 (c) VALUES (2)
+
+INSERT INTO course (sid, homework, project, exam, grade) SELECT * FROM course

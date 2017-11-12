@@ -1,0 +1,2 @@
+DELETE FROM course
+DELETE FROM course WHERE grade = "E"

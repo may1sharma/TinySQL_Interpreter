@@ -68,4 +68,15 @@ public class SelectStatement implements Statement {
     public void setCondition(List<String> condition) {
         this.condition = condition;
     }
+
+    @Override
+    public String toString() {
+        return "SelectStatement{" +
+                "hasDistinct=" + hasDistinct +
+                ", columns=" + columns +
+                ", tables=" + tables +
+                ", condition=" + condition +
+                ", orderColumn='" + orderColumn + '\'' +
+                '}';
+    }
 }

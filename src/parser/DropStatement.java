@@ -19,4 +19,11 @@ public class DropStatement implements Statement {
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }
+
+    @Override
+    public String toString() {
+        return "DropStatement{" +
+                "tableName='" + tableName + '\'' +
+                '}';
+    }
 }

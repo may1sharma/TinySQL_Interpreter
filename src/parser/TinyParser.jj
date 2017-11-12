@@ -123,10 +123,10 @@ ArrayList<Statement> init():
           {stmtList.add(stmt) ;}
         | stmt = SelectStatement()
           {stmtList.add(stmt) ;}
-//        | stmt = InsertStatement()
-//          {stmtList.add(stmt) ;}
-//        | stmt = DeleteStatement()
-//          {stmtList.add(stmt) ;}
+        | stmt = InsertStatement()
+          {stmtList.add(stmt) ;}
+        | stmt = DeleteStatement()
+          {stmtList.add(stmt) ;}
     )*
     <EOF>
     {return stmtList;}
@@ -181,6 +181,95 @@ Statement DropStatement():
     {
         return new DropStatement(T.image);
     }
+}
+
+Statement DeleteStatement():
+{
+    Token T;
+    ArrayList<String> clause = null;
+}
+{
+    <DELETE>
+    T = TableName()
+    [<WHERE> clause = Condition()]
+    {
+        return new DeleteStatement(T.image, clause);
+    }
+}
+
+Statement InsertStatement():
+{
+    Token T;
+    ArrayList<String> attr;
+    ArrayList<String> values;
+    Statement stmt;
+}
+{
+    <INSERT>
+    T = TableName()
+    <LPAREN>
+    attr = AttrList()
+    <RPAREN>
+    ( values = tuples()
+        {   return new InsertStatement(T.image, attr, values);    }
+    | stmt = SelectStatement()
+        {   return new InsertStatement(T.image, attr, (SelectStatement)stmt);    }
+    )
+}
+
+ArrayList<String> AttrList():
+{
+    Token T;
+    ArrayList<String> attr = new ArrayList<String>();
+}
+{
+    T = AttributeName()
+        {attr.add(T.image);}
+    ( <COMMA>
+        T = AttributeName()
+        {attr.add(T.image);}
+    )*
+    {return attr;}
+}
+
+ArrayList<String> tuples():
+{
+    Token T;
+    ArrayList<String> tup;
+}
+{
+    <VALUES> <LPAREN> tup = Values() <RPAREN>
+    {return tup;}
+}
+
+String Value():
+{   Token T;
+    String S;
+}
+{
+    T = <NULL>
+        {return T.image;}
+    | S = Literal()
+        {return S;}
+    | T = <INTEGER>
+        {return T.image;}
+    | T = <DIGIT>
+        {return T.image;}
+}
+
+ArrayList<String> Values():
+{
+    String T;
+    ArrayList<String> vals = new ArrayList<String>();
+}
+{
+    T = Value()
+        {vals.add(T);}
+    ( <COMMA>
+        T = Value()
+        {vals.add(T);}
+    )*
+    {return vals;}
 }
 
 Statement SelectStatement():
@@ -336,3 +425,4 @@ ArrayList<String> Condition() :
     ]
     { return cond;}
 }
+

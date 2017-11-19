@@ -2,7 +2,7 @@ CREATE TABLE STUDENT
 ( 
     StudentName STR20, 
     Class INT, 
-    Rnum INT
+    Rnum STR20
 ) 
 CREATE TABLE course (sid12 INT, homework INT, project INT, exam INT, grade STR20)
 CREATE TABLE course2 (sid INT, exam INT, grade STR20)

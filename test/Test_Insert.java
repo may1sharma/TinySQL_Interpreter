@@ -1,3 +1,4 @@
+import interpreter.InsertProc;
 import parser.DeleteStatement;
 import parser.InsertStatement;
 import parser.Statement;

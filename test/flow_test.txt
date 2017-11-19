@@ -1,0 +1,37 @@
+CREATE TABLE course (sid INT, homework INT, project INT, exam INT, grade STR20)
+INSERT INTO course (sid, homework, project, exam, grade) VALUES (1, 99, 100, 100, "A")
+INSERT INTO course (sid, homework, project, exam, grade) VALUES (3, 100, 100, 98, "C")
+INSERT INTO course (sid, homework, project, exam, grade) VALUES (16, 0, 0, 0, "E")
+
+
+CREATE TABLE course2 (sid INT, exam INT, grade STR20)
+INSERT INTO course2 (sid, exam, grade) VALUES (6, 65, "B")
+INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
+INSERT INTO course2 (sid, exam, grade) VALUES (6, 65, "D")
+INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "C")
+INSERT INTO course2 (sid, exam, grade) VALUES (2, 99, "B")
+INSERT INTO course2 (sid, exam, grade) VALUES (2, 99, "B")
+INSERT INTO course2 (sid, exam, grade) VALUES (3, 98, "C")
+INSERT INTO course2 (sid, exam, grade) VALUES (4, 97, "D")
+INSERT INTO course2 (sid, exam, grade) VALUES (5, 66, "A")
+INSERT INTO course2 (sid, exam, grade) VALUES (6, 65, "B")
+INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
+INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
+INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
+INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
+INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
+INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
+INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
+INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
+INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
+INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
+INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
+INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
+INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
+
+SELECT * FROM course2
+
+INSERT INTO course2 (sid, exam, grade) SELECT * FROM course2
+
+DROP TABLE course
+DROP TABLE course2

@@ -1,6 +1,6 @@
 package parser;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class CreateStatement implements Statement {
     @Override
@@ -9,10 +9,10 @@ public class CreateStatement implements Statement {
     }
 
     String tableName;
-    // HashMap of Attribute name and Data StatementType
-    HashMap<String,String> attributes = new HashMap<>();
+    // LinkedHashMap of Attribute name and Data StatementType
+    LinkedHashMap<String,String> attributes = new LinkedHashMap<>();
 
-    public CreateStatement(String tableName, HashMap<String, String> attributes) {
+    public CreateStatement(String tableName, LinkedHashMap<String, String> attributes) {
         this.tableName = tableName;
         this.attributes = attributes;
     }
@@ -32,11 +32,11 @@ public class CreateStatement implements Statement {
         this.tableName = tableName;
     }
 
-    public HashMap<String, String> getAttributes() {
+    public LinkedHashMap<String, String> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(HashMap<String, String> attributes) {
+    public void setAttributes(LinkedHashMap<String, String> attributes) {
         this.attributes = attributes;
     }
 

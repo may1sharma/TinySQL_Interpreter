@@ -10,9 +10,6 @@ public interface Statement {
         DELETE
     }
 
-    StatementType STATEMENT_TYPE = null;
-
     StatementType getType();
-
 }
 

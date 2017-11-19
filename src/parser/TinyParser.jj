@@ -5,7 +5,7 @@ options
 PARSER_BEGIN (TinyParser)
    package parser;
    import java.util.ArrayList;
-   import java.util.HashMap;
+   import java.util.LinkedHashMap;
    class TinyParser {
          ArrayList<Statement> initParser()throws ParseException, TokenMgrError {
             return(init()) ;
@@ -136,7 +136,7 @@ Statement CreateStatement():
 {
     Token T;
     Statement stmt;
-    HashMap<String,String> attributes;
+    LinkedHashMap<String,String> attributes;
 }
 {
     <CREATE>
@@ -150,11 +150,11 @@ Statement CreateStatement():
     }
 }
 
-HashMap AttrTypeList():
+LinkedHashMap AttrTypeList():
 {
    Token AName;
    Token AType;
-   HashMap<String,String> var = new HashMap<String, String>();
+   LinkedHashMap<String,String> var = new LinkedHashMap<String, String>();
 }
 {
     AName = AttributeName()

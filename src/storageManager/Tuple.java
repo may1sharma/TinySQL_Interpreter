@@ -189,4 +189,18 @@ public class Tuple implements Serializable {
 	    return toString(false);
 	  }
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Tuple)) return false;
+
+		Tuple tuple = (Tuple) o;
+
+		return fields.equals(tuple.fields);
+	}
+
+	@Override
+	public int hashCode() {
+		return fields.hashCode();
+	}
 }

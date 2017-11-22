@@ -29,9 +29,7 @@ INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
 INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
 INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
 
-SELECT * FROM course2
-
-INSERT INTO course2 (sid, exam, grade) SELECT * FROM course2
+SELECT DISTINCT sid, course2.grade FROM course2
 
 DROP TABLE course
 DROP TABLE course2

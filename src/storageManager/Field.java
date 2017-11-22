@@ -26,4 +26,24 @@ public class Field implements Serializable {
 	      str+=this.str;
 	    return str;
 	  }
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Field)) return false;
+
+		Field field = (Field) o;
+
+		if (integer != field.integer) return false;
+		if (type != field.type) return false;
+		return str != null ? str.equals(field.str) : field.str == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = type.hashCode();
+		result = 31 * result + integer;
+		result = 31 * result + (str != null ? str.hashCode() : 0);
+		return result;
+	}
 }

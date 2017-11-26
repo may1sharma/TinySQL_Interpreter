@@ -1,3 +1,4 @@
+import interpreter.WhereClause;
 import parser.CreateStatement;
 import parser.SelectStatement;
 import parser.Statement;
@@ -19,7 +20,10 @@ public class Test_Select {
                 System.out.println("Has DISTINCT :"+((SelectStatement)t1).isHasDistinct());
                 System.out.println("Column names :"+((SelectStatement)t1).getColumns());
                 System.out.println("Tables :"+((SelectStatement)t1).getTables());
-                System.out.println("WHERE :"+((SelectStatement)t1).getCondition());
+                ArrayList<String> whr = (ArrayList<String>) ((SelectStatement)t1).getCondition();
+                System.out.println("WHERE :" + whr);
+                if (whr != null && !whr.isEmpty())
+                    System.out.println("PostFix expression :"+ WhereClause.convertToPostFix(whr));
                 System.out.println("ORDER BY :"+((SelectStatement)t1).getOrderColumn());
                 System.out.println("--------------------------");
             }

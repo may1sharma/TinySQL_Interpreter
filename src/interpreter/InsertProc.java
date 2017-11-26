@@ -12,7 +12,7 @@ public class InsertProc extends Procedures {
         super(mem, disk, schema_manager);
     }
 
-    public void insertTuple(InsertStatement stmt) {
+    public void insertTuples(InsertStatement stmt) {
         Relation relation_ref = schema_manager.getRelation(stmt.getTableName());
         Tuple tuple = relation_ref.createTuple();
         Schema schema = relation_ref.getSchema();
@@ -54,11 +54,11 @@ public class InsertProc extends Procedures {
             }
         }
 
-        System.out.println("Insert Procedure Result \n" + relation_ref);
+        System.out.println("\n Insert Procedure Result \n" + relation_ref);
     }
 
     // This method appends new tuple blocks at the end of relation
-    private void appendTuplesToRelation(Relation relation_ref, ArrayList<Tuple> tuples) {
+    public void appendTuplesToRelation(Relation relation_ref, ArrayList<Tuple> tuples) {
         if (tuples == null || tuples.isEmpty()) {
             return;
         }
@@ -69,7 +69,7 @@ public class InsertProc extends Procedures {
             ArrayList<Tuple> subList = new ArrayList<Tuple>(tuples.subList(i, endIndex));
             mem.setTuples(0, subList);
             relation_ref.setBlocks(relation_ref.getNumOfBlocks(),0,
-                    (int)Math.ceil(subList.size()/tuplesPerBlock));
+                    (int)Math.ceil((double)subList.size()/tuplesPerBlock));
         }
     }
 

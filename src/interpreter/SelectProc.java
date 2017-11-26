@@ -4,7 +4,6 @@ import parser.SelectStatement;
 import storageManager.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -15,6 +14,9 @@ public class SelectProc extends Procedures {
 
     public ArrayList<Tuple> selectTuples(SelectStatement stmt) {
         ArrayList<Tuple> result = new ArrayList<>();
+        final ArrayList<String> clause =  WhereClause.convertToPostFix((ArrayList<String>) stmt.getCondition());
+//        System.out.println(" WHERE Clause : " + clause);
+
         if (stmt.getTables().size()==1) {
             Relation relation = schema_manager.getRelation(stmt.getTables().get(0));
             int blocksInRel = relation.getNumOfBlocks();
@@ -25,8 +27,17 @@ public class SelectProc extends Procedures {
                     relation.getBlocks(i, 0, (blocksInRel - i >= mem.getMemorySize())?
                             mem.getMemorySize(): blocksInRel - i);
 
-                    result.addAll(mem.getTuples(0, (blocksInRel - i >= mem.getMemorySize())?
-                            mem.getMemorySize(): blocksInRel - i));
+                    ArrayList<Tuple> temp = mem.getTuples(0, (blocksInRel - i >= mem.getMemorySize()) ?
+                            mem.getMemorySize() : blocksInRel - i);
+                    // WHERE clause check
+                    if (clause == null) {
+                        result.addAll(temp);
+                    } else {
+                        temp.forEach(tuple -> {
+                            if (WhereClause.evaluatePostfix(clause, tuple))
+                                result.add(tuple);
+                        });
+                    }
                 }
             } else {
                 // Create temporary schema and relation to store Tuple results
@@ -83,10 +94,16 @@ public class SelectProc extends Procedures {
                                 temp_Tuple.setField(s, tuple.getField(s).str);
                             }
                         });
-                        // Add this to final list
-                        tempResult.add(temp_Tuple);
+                        // Add this to final list after checking WHERE clause
+                        if (clause == null || WhereClause.evaluatePostfix(clause, tuple))
+                            tempResult.add(temp_Tuple);
+
                     });
+
                 }
+
+                // Delete Temporary Tables
+                schema_manager.deleteRelation("tempSelect");
             }
         }
 

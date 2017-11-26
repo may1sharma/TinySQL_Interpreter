@@ -20,6 +20,8 @@ public class Main {
                     procedure.getSchema_manager());
             SelectProc select_proc = new SelectProc(procedure.getMem(), procedure.getDisk(),
                     procedure.getSchema_manager());
+            DeleteProc delete_proc = new DeleteProc(procedure.getMem(), procedure.getDisk(),
+                    procedure.getSchema_manager());
 
             ArrayList<Statement> tableList = parser.init();
             for(Statement t : tableList)
@@ -29,7 +31,7 @@ public class Main {
                         create_proc.createRelation((CreateStatement) t);
                         break;
                     case INSERT:
-                        insert_proc.insertTuple((InsertStatement) t);
+                        insert_proc.insertTuples((InsertStatement) t);
                         break;
                     case DROP:
                         drop_proc.dropRelation((DropStatement) t);
@@ -37,6 +39,8 @@ public class Main {
                     case SELECT:
                         select_proc.selectTuples((SelectStatement) t);
                         break;
+                    case DELETE:
+                        delete_proc.deleteTuples((DeleteStatement) t);
                 }
             }
         }catch (Exception ex)

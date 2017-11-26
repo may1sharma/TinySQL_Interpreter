@@ -13,8 +13,11 @@ public class DropTableProc extends Procedures {
 
     public void dropRelation(DropStatement stmt) {
         Relation relation = schema_manager.getRelation(stmt.getTableName());
-        relation.deleteBlocks(0);
-        System.out.println("Drop Procedure \n" + relation);
+        if (relation == null)
+            throw new RuntimeException(stmt.getTableName()+ " Table does not exists");
+        if (relation.getNumOfBlocks() > 0)
+            relation.deleteBlocks(0);
+        System.out.println("\n Drop Procedure \n" + relation);
         schema_manager.deleteRelation(stmt.getTableName());
     }
 }

@@ -14,6 +14,20 @@ public class SelectProc extends Procedures {
 
     public ArrayList<Tuple> selectTuples(SelectStatement stmt) {
         ArrayList<Tuple> result = new ArrayList<>();
+
+        // Checking ORDER BY clause
+        String orderCol = stmt.getOrderColumn();
+        if (!(orderCol == null || orderCol.isEmpty())) {
+            int idx = orderCol.lastIndexOf('.');
+            if (idx != -1){
+                OrderClause.sortRelation(schema_manager.getRelation(orderCol.substring(0, idx)),
+                        orderCol.substring(idx+1), mem, disk, schema_manager);
+            } else {
+                OrderClause.sortRelation(schema_manager.getRelation(stmt.getTables().get(0)),
+                        orderCol, mem, disk, schema_manager);
+            }
+        }
+
         final ArrayList<String> clause =  WhereClause.convertToPostFix((ArrayList<String>) stmt.getCondition());
 //        System.out.println(" WHERE Clause : " + clause);
 
@@ -116,11 +130,6 @@ public class SelectProc extends Procedures {
 //            System.out.println(hs);
             result.clear();
             result.addAll(hs);
-        }
-
-        // Checking ORDER BY clause
-        if (!(stmt.getOrderColumn() == null || stmt.getOrderColumn().isEmpty())) {
-            //TODO
         }
 
         System.out.println("Select Procedure Result size \n" + result.size());

@@ -47,22 +47,8 @@ INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "C")
 INSERT INTO course2 (sid, exam, grade) VALUES (2, 99, "B")
 INSERT INTO course2 (sid, exam, grade) VALUES (2, 99, "B")
 INSERT INTO course2 (sid, exam, grade) VALUES (3, 98, "C")
-INSERT INTO course2 (sid, exam, grade) VALUES (6, 65, "B")
-INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
-INSERT INTO course2 (sid, exam, grade) VALUES (6, 65, "D")
-INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "C")
-INSERT INTO course2 (sid, exam, grade) VALUES (2, 99, "B")
-INSERT INTO course2 (sid, exam, grade) VALUES (2, 99, "B")
-INSERT INTO course2 (sid, exam, grade) VALUES (3, 98, "C")
-INSERT INTO course2 (sid, exam, grade) VALUES (6, 65, "B")
-INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "A")
-INSERT INTO course2 (sid, exam, grade) VALUES (6, 65, "D")
-INSERT INTO course2 (sid, exam, grade) VALUES (18, 0, "C")
-INSERT INTO course2 (sid, exam, grade) VALUES (2, 99, "B")
-INSERT INTO course2 (sid, exam, grade) VALUES (2, 99, "B")
-INSERT INTO course2 (sid, exam, grade) VALUES (3, 98, "C")
 
-SELECT DISTINCT sid, grade FROM course2 ORDER BY course2.exam
+SELECT DISTINCT course.grade, course2.grade FROM course, course2 ORDER BY course2.exam
 
 
 DROP TABLE course

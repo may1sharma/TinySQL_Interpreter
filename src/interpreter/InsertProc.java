@@ -3,7 +3,6 @@ package interpreter;
 import parser.InsertStatement;
 import storageManager.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +21,12 @@ public class InsertProc extends Procedures {
 
         if (attr != null && vals != null) {
             for(int i=0; i<attr.size(); i++) {
-                if(schema.getFieldType(attr.get(i)) == FieldType.INT){
-                    tuple.setField(attr.get(i), Integer.parseInt(vals.get(i)));
-                } else {
-                    tuple.setField(attr.get(i), vals.get(i));
+                if (! "NULL".equalsIgnoreCase(vals.get(i))) {
+                    if (schema.getFieldType(attr.get(i)) == FieldType.INT) {
+                        tuple.setField(attr.get(i), Integer.parseInt(vals.get(i)));
+                    } else {
+                        tuple.setField(attr.get(i), vals.get(i));
+                    }
                 }
             }
             appendTupleToRelation(relation_ref, 0, tuple);

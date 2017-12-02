@@ -3,6 +3,8 @@ package interpreter;
 import parser.InsertStatement;
 import storageManager.*;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +13,7 @@ public class InsertProc extends Procedures {
         super(mem, disk, schema_manager);
     }
 
-    public void insertTuples(InsertStatement stmt) {
+    public void insertTuples(InsertStatement stmt, FileOutputStream out) throws IOException {
         Relation relation_ref = schema_manager.getRelation(stmt.getTableName());
         Tuple tuple = relation_ref.createTuple();
         Schema schema = relation_ref.getSchema();
@@ -32,7 +34,7 @@ public class InsertProc extends Procedures {
             appendTupleToRelation(relation_ref, 0, tuple);
 
         } else if (stmt.getSelectStatement() != null) {
-            ArrayList<Tuple> tuples = new SelectProc(mem, disk, schema_manager).selectTuples(stmt.getSelectStatement());
+            ArrayList<Tuple> tuples = new SelectProc(mem, disk, schema_manager).selectTuples(stmt.getSelectStatement(), out);
             if (relation_ref.getNumOfBlocks() == 0) {
                 appendTuplesToRelation(relation_ref, tuples);
             } else {
@@ -55,7 +57,8 @@ public class InsertProc extends Procedures {
             }
         }
 
-        System.out.println("\n Insert Procedure Result \n" + relation_ref);
+//        System.out.println("\n Insert Procedure Result \n" + relation_ref);
+        out.write(("Tuple(s) Inserted Successfully \n" + relation_ref + "\n").getBytes());
     }
 
     // This method appends new tuple blocks at the end of relation

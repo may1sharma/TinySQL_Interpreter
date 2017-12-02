@@ -3,6 +3,8 @@ package interpreter;
 import parser.DeleteStatement;
 import storageManager.*;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -11,7 +13,7 @@ public class DeleteProc extends Procedures {
         super(mem, disk, schema_manager);
     }
 
-    public void deleteTuples(DeleteStatement stmt) {
+    public void deleteTuples(DeleteStatement stmt, FileOutputStream out) throws IOException {
         ArrayList<String> clause = WhereClause.convertToPostFix((ArrayList<String>) stmt.getCondition());
         Relation relation = schema_manager.getRelation(stmt.getTableName());
         if (relation == null)
@@ -52,6 +54,7 @@ public class DeleteProc extends Procedures {
             // Delete redundant blocks at the end having indices staring from validBlocks count
             relation.deleteBlocks(validBlocks);
         }
-        System.out.println("\n Delete Procedure \n" + relation);
+//        System.out.println("\n Delete Procedure \n" + relation);
+        out.write(("Relation " + stmt.getTableName() + " after Tuple Deletion \n " + relation + "\n").getBytes());
     }
 }

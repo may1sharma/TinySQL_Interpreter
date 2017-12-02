@@ -182,7 +182,7 @@
     throw new Error("Missing return statement in function");
   }
 
-  final public LinkedHashMap AttrTypeList() throws ParseException {
+  final public LinkedHashMap<String,String> AttrTypeList() throws ParseException {
    Token AName;
    Token AType;
    LinkedHashMap<String,String> var = new LinkedHashMap<String, String>();

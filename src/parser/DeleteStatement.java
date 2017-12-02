@@ -34,9 +34,8 @@ public class DeleteStatement implements Statement {
 
     @Override
     public String toString() {
-        return "DeleteStatement{" +
-                "tableName='" + tableName + '\'' +
-                ", condition=" + condition +
-                '}';
+        return "Delete Statement :" + "\n" +
+                "tableName = '" + tableName + '\'' + "\n" +
+                "condition = " + condition + "\n" ;
     }
 }

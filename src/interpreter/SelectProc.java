@@ -3,6 +3,8 @@ package interpreter;
 import parser.SelectStatement;
 import storageManager.*;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.*;
 
 public class SelectProc extends Procedures {
@@ -10,8 +12,9 @@ public class SelectProc extends Procedures {
         super(mem, disk, schema_manager);
     }
 
-    public ArrayList<Tuple> selectTuples(SelectStatement stmt) {
+    public ArrayList<Tuple> selectTuples(SelectStatement stmt, FileOutputStream out) throws IOException {
         ArrayList<Tuple> result = new ArrayList<>();
+        ArrayList<String> outColumns = null;
 
         // ORDER BY clause
         String orderCol = stmt.getOrderColumn();
@@ -25,6 +28,7 @@ public class SelectProc extends Procedures {
             int blocksInRel = relation.getNumOfBlocks();
             // Basic query Select * From SingleTable
             if ("*".equals(stmt.getColumns().get(0))) {
+                outColumns = relation.getSchema().getFieldNames();
                 if (!(orderCol == null || orderCol.isEmpty())) {
                     int idx = orderCol.lastIndexOf('.');
                     if (idx != -1){
@@ -91,6 +95,7 @@ public class SelectProc extends Procedures {
 
                 if (!temp_Fnames.isEmpty()) {
                     temp_schema = new Schema(temp_Fnames, temp_Ftypes);
+                    outColumns = temp_Fnames;
                 }
                 Relation temp_relation = schema_manager.createRelation("tempSelect", temp_schema);
 
@@ -199,6 +204,7 @@ public class SelectProc extends Procedures {
 
             if (!temp_Fnames.isEmpty()) {
                 join_schema = new Schema(temp_Fnames, temp_Ftypes);
+                outColumns = temp_Fnames;
             }
             Relation join_relation = schema_manager.createRelation("joinSelect", join_schema);
 
@@ -268,6 +274,7 @@ public class SelectProc extends Procedures {
 
                 if (!tmp_Fnames.isEmpty()) {
                     tmp_schema = new Schema(tmp_Fnames, tmp_Ftypes);
+                    outColumns = tmp_Fnames;
                 }
                 Relation tmp_relation = schema_manager.createRelation("tmpSelect", tmp_schema);
 
@@ -302,8 +309,16 @@ public class SelectProc extends Procedures {
             result.addAll(hs);
         }
 
-        System.out.println("Select Procedure Result size \n" + result.size());
-        System.out.println("Select Procedure Result \n" + result.toString());
+//        System.out.println("Select Procedure Result size \n" + result.size());
+//        System.out.println("Select Procedure Result \n" + result.toString());
+        out.write(("Selected Tuple Count : " + result.size() + "\n").getBytes());
+        if (result.size() != 0) {
+            out.write(("Selected Tuples : \n").getBytes());
+            out.write(("Columns " + outColumns + "\n").getBytes());
+            for (Tuple tuple : result) {
+                out.write((tuple + "\n").getBytes());
+            }
+        }
         return result;
     }
 

@@ -22,8 +22,7 @@ public class DropStatement implements Statement {
 
     @Override
     public String toString() {
-        return "DropStatement{" +
-                "tableName='" + tableName + '\'' +
-                '}';
+        return "Drop Statement :" + "\n" +
+                "tableName = '" + tableName + '\'' + "\n" ;
     }
 }

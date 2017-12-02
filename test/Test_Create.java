@@ -21,14 +21,14 @@ public class Test_Create {
                 System.out.println("Data Types :"+((CreateStatement)t1).getAttributes().values());
                 System.out.println("--------------------------");
 
-                Relation relation_reference = proc.createRelation((CreateStatement) t1);
-
-                // Print the information about the Relation
-                System.out.print("The table has name " + relation_reference.getRelationName() + "\n");
-                System.out.print("The table has schema:" + "\n");
-                System.out.print(relation_reference.getSchema() + "\n");
-                System.out.print("The table currently have " + relation_reference.getNumOfBlocks() + " blocks" + "\n");
-                System.out.print("The table currently have " + relation_reference.getNumOfTuples() + " tuples" + "\n" + "\n");
+//                Relation relation_reference = proc.createRelation((CreateStatement) t1, out);
+//
+//                // Print the information about the Relation
+//                System.out.print("The table has name " + relation_reference.getRelationName() + "\n");
+//                System.out.print("The table has schema:" + "\n");
+//                System.out.print(relation_reference.getSchema() + "\n");
+//                System.out.print("The table currently have " + relation_reference.getNumOfBlocks() + " blocks" + "\n");
+//                System.out.print("The table currently have " + relation_reference.getNumOfTuples() + " tuples" + "\n" + "\n");
             }
         }catch (Exception ex)
         {ex.printStackTrace() ;}

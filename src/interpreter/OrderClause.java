@@ -1,6 +1,5 @@
 package interpreter;
 
-import com.sun.istack.internal.NotNull;
 import storageManager.*;
 
 import java.util.ArrayList;
@@ -96,7 +95,7 @@ public class OrderClause {
         ArrayList<Tuple> arr;
         int index;
 
-        public ArrayContainer(@NotNull ArrayList<Tuple> arr, int index) {
+        public ArrayContainer( ArrayList<Tuple> arr, int index) {
             this.arr = arr;
             this.index = index;
         }

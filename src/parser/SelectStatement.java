@@ -71,12 +71,11 @@ public class SelectStatement implements Statement {
 
     @Override
     public String toString() {
-        return "SelectStatement{" +
-                "hasDistinct=" + hasDistinct +
-                ", columns=" + columns +
-                ", tables=" + tables +
-                ", condition=" + condition +
-                ", orderColumn='" + orderColumn + '\'' +
-                '}';
+        return "Select Statement :" + "\n" +
+                "hasDistinct = " + hasDistinct + "\n" +
+                "columns = " + columns + "\n" +
+                "tables = " + tables + "\n" +
+                "condition = " + condition + "\n" +
+                "orderColumn = '" + orderColumn + '\'' + "\n" ;
     }
 }

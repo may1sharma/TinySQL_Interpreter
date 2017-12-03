@@ -27,11 +27,11 @@ public class Main {
             try {
                 switch (new Scanner(System.in).nextInt()) {
                     case 0:
-                        System.out.println("Thanks for using TinySQL interpreter");
+                        System.out.println(" Thanks for using TinySQL interpreter");
                         System.exit(0);
                         break;
                     case 1:
-                        System.out.println("Enter a TinySQL query:");
+                        System.out.println(" Enter a TinySQL query:");
                         input = new Scanner(System.in).nextLine();
 //                        System.out.println("Output " + input);
                         parser.ReInit(new StringReader(input));
@@ -39,7 +39,7 @@ public class Main {
                         processStatements(statements, procedures);
                         break;
                     case 2:
-                        System.out.println("Enter full path to the input file:");
+                        System.out.println(" Enter full path to the input file:");
                         input = new Scanner(System.in).nextLine();
 //                        System.out.println("Output " + input);
                         parser = new TinyParser (new FileReader(input));
@@ -80,9 +80,9 @@ public class Main {
         FileOutputStream out = null;
 
         try {
-            out = new FileOutputStream("out/Result.txt");
+            out = new FileOutputStream("Result.txt");
             for(Statement stmt : statements) {
-                out.write((stmt.toString() + "\n").getBytes());
+                out.write((stmt.toString() + "\r\n").getBytes());
                 procedures.getDisk().resetDiskTimer();
                 procedures.getDisk().resetDiskIOs();
                 long start = System.currentTimeMillis();
@@ -105,16 +105,16 @@ public class Main {
                 }
 
                 long elapsedTimeMillis = System.currentTimeMillis() - start;
-                out.write(("\nSystem elapse time = " + elapsedTimeMillis + " ms" + "\n").getBytes());
-                out.write(("Calculated Disk elapse time = " + procedures.getDisk().getDiskTimer() + " ms" + "\n").getBytes());
-                out.write(("Calculated Disk I/Os = " + procedures.getDisk().getDiskIOs() + "\n").getBytes());
-                out.write(("--------------------------------------------------------------------------------------------\n").getBytes());
+                out.write(("\r\nSystem elapse time = " + elapsedTimeMillis + " ms" + "\r\n").getBytes());
+                out.write(("Calculated Disk elapse time = " + procedures.getDisk().getDiskTimer() + " ms" + "\r\n").getBytes());
+                out.write(("Calculated Disk I/Os = " + procedures.getDisk().getDiskIOs() + "\r\n").getBytes());
+                out.write(("--------------------------------------------------------------------------------------------\r\n").getBytes());
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
             if (out != null) {
-                System.out.println("\n Output is logged in file " +  System.getProperty("user.dir") + "\\out\\Result.txt");
+                System.out.println("\n Output is logged in file " +  System.getProperty("user.dir") + "\\Result.txt");
                 out.close();
             }
         }

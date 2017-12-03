@@ -33,7 +33,7 @@ public class CreateTableProc extends Procedures {
         Relation relation = schema_manager.createRelation(stmt.getTableName(), schema);
 
 //        System.out.println("\n Create Procedure Result \n" + relation);
-        out.write(("Successfully created relation " + stmt.getTableName() + " \n").getBytes());
+        out.write(("Successfully created relation " + stmt.getTableName() + " \r\n").getBytes());
         return relation;
     }
 }

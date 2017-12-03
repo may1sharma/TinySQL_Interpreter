@@ -58,7 +58,7 @@ public class InsertProc extends Procedures {
         }
 
 //        System.out.println("\n Insert Procedure Result \n" + relation_ref);
-        out.write(("Tuple(s) Inserted Successfully \n" + relation_ref + "\n").getBytes());
+        out.write(("Tuple(s) Inserted Successfully \r\n" + relation_ref + "\r\n").getBytes());
     }
 
     // This method appends new tuple blocks at the end of relation

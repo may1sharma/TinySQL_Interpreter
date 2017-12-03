@@ -42,8 +42,8 @@ public class CreateStatement implements Statement {
 
     @Override
     public String toString() {
-        return "Create Statement :" + "\n" +
-                "tableName = '" + tableName + '\'' + "\n" +
-                "attributes = " + attributes + "\n" ;
+        return "Create Statement :" + "\r\n" +
+                "tableName = '" + tableName + '\'' + "\r\n" +
+                "attributes = " + attributes + "\r\n" ;
     }
 }

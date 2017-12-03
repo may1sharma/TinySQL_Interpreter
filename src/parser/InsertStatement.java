@@ -59,10 +59,10 @@ public class InsertStatement implements Statement {
 
     @Override
     public String toString() {
-        return "Insert Statement :" + "\n" +
-                "tableName = '" + tableName + '\'' + "\n" +
-                "attributes = " + attributes + "\n" +
-                "values = " + values + "\n" +
-                "selectStatement = " + selectStatement + "\n" ;
+        return "Insert Statement :" + "\r\n" +
+                "tableName = '" + tableName + '\'' + "\r\n" +
+                "attributes = " + attributes + "\r\n" +
+                "values = " + values + "\r\n" +
+                "selectStatement = " + selectStatement + "\r\n" ;
     }
 }

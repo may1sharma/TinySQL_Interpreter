@@ -22,6 +22,6 @@ public class DropTableProc extends Procedures {
             relation.deleteBlocks(0);
 //        System.out.println("\n Drop Procedure \n" + relation);
         schema_manager.deleteRelation(stmt.getTableName());
-        out.write(("Successfully removed all tuples and Dropped Relation " + stmt.getTableName() + "\n").getBytes());
+        out.write(("Successfully removed all tuples and Dropped Relation " + stmt.getTableName() + "\r\n").getBytes());
     }
 }

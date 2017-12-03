@@ -55,6 +55,6 @@ public class DeleteProc extends Procedures {
             relation.deleteBlocks(validBlocks);
         }
 //        System.out.println("\n Delete Procedure \n" + relation);
-        out.write(("Relation " + stmt.getTableName() + " after Tuple Deletion \n " + relation + "\n").getBytes());
+        out.write(("Relation " + stmt.getTableName() + " after Tuple Deletion \r\n " + relation + "\r\n").getBytes());
     }
 }

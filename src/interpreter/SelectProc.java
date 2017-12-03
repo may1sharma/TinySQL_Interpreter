@@ -311,12 +311,12 @@ public class SelectProc extends Procedures {
 
 //        System.out.println("Select Procedure Result size \n" + result.size());
 //        System.out.println("Select Procedure Result \n" + result.toString());
-        out.write(("Selected Tuple Count : " + result.size() + "\n").getBytes());
+        out.write(("Selected Tuple Count : " + result.size() + "\r\n").getBytes());
         if (result.size() != 0) {
-            out.write(("Selected Tuples : \n").getBytes());
-            out.write(("Columns " + outColumns + "\n").getBytes());
+            out.write(("Selected Tuples : \r\n").getBytes());
+            out.write(("Columns " + outColumns + "\r\n").getBytes());
             for (Tuple tuple : result) {
-                out.write((tuple + "\n").getBytes());
+                out.write((tuple + "\r\n").getBytes());
             }
         }
         return result;

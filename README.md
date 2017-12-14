@@ -1,11 +1,5 @@
-# CSCE-608 Database Systems
-# Project 2: TinySQL Interpreter
 
-# Library Modifications
-The following modifications were made to the storage Manager library:
-
-Added equals() and hashCode() methods to files Field.java and Tuple.java
-Justification: To compare two tuples for eliminating possible duplicates 
+# TinySQL Interpreter
 
 # Interface: Single User Text Based Iterative Interface.
 
@@ -31,5 +25,4 @@ Steps:
 	
 	
 # Developers
-Mayank Sharma (mayank.sharma@tamu.edu)
-Fazia Batool  (fazia.batool@tamu.edu)
+Mayank Sharma (mayank.sharma@tamu.edu) 

@@ -1,11 +1,10 @@
 
 # TinySQL Interpreter
 
-# Interface: Single User Text Based Iterative Interface.
+Interface: Single User Text Based Iterative Interface.
+Requisite: Java SE 1.8
 
-# Requisite: Java SE 1.8
-
-#How to Run
+# How to Run
 Steps:
 1. Open terminal (/command prompt) and go to "TinySQL_Interpreter" Project location.
 2. Run the following commands:
@@ -23,6 +22,3 @@ Steps:
 	The output file Result.txt is rewritten on each iteration so make a copy if you need to persist the output.
 	Note: It is better to open the output file in advanced editors instead of basic Notepad.
 	
-	
-# Developers
-Mayank Sharma (mayank.sharma@tamu.edu) 

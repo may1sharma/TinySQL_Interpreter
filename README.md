@@ -2,6 +2,7 @@
 # TinySQL Interpreter
 
 Interface: Single User Text Based Iterative Interface.
+
 Requisite: Java SE 1.8
 
 # How to Run
@@ -9,7 +10,9 @@ Steps:
 1. Open terminal (/command prompt) and go to "TinySQL_Interpreter" Project location.
 2. Run the following commands:
 	> javac -target 1.8 -source 1.8 -d ./out/ src/parser/*.java src/storageManager/*.java src/interpreter/*.java -Xlint:unchecked
+	
 	> cd out/
+	
 	> java -cp . interpreter/Main
 3. A text based interface will open with following options:
 	Enter 1 for Single Query Input
